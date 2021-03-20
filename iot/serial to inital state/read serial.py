@@ -1,5 +1,24 @@
 import serial
-ser = serial.Serial("COM11", 9600)
+
+ser = serial.Serial(
+    port='COM5',\
+    baudrate=9600,\
+    parity=serial.PARITY_NONE,\
+    stopbits=serial.STOPBITS_ONE,\
+    bytesize=serial.EIGHTBITS,\
+        timeout=0)
+
+print("connected to: " + ser.portstr)
+
+#this will store the line
+line = []
+
 while True:
-     cc=str(ser.readline())
-     print(cc[2:][:-5])
+    for c in ser.read():
+        line.append(c)
+        if c == '\n':
+            print("Line: " + ''.join(line))
+            line = []
+            break
+
+ser.close()
