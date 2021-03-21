@@ -1,10 +1,15 @@
+# ======================================================================================================================
+# made by Bevan Matsacos
+# reads serial data in unicode, converts it to int, removes the byte symbol b' ', sends the val to initial state
+# ======================================================================================================================
+
 import serial
 import requests
 
-access_key = "ist_WNCOhg0VQNzA4AQT9NqLLQ-UXPTwe5pF"  # initialstate access key
-bucket_key = "697WU5WM5EYX"  # initialstate bucket key
+access_key = "ist_WNCOhg0VQNzA4AQT9NqLLQ-UXPTwe5pF"  # initial state access key
+bucket_key = "697WU5WM5EYX"  # initial state bucket key
 url = "https://groker.init.st/api/events?accessKey=" + access_key + "&bucketKey=" + bucket_key  # full url getting
-# general url add varible access key and bucket key
+# general url add variable access key and bucket key
 
 ser = serial.Serial(
     port='COM3',  # set to com on windows or tty on py
@@ -29,16 +34,3 @@ while True:
         requests.post(post_url)  # request is the name of a repository and post is the commmand to post it to the
         # website
 ser.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
