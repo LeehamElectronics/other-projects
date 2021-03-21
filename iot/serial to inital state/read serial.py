@@ -14,8 +14,6 @@ val = 0
 data = 0
 while True:
     val = ser.readline()
-    #print(str(val)[2:-1])
     if len(val) > 1:
         print(str(val)[2:-1])
 ser.close()
-#print(chr(line) )
