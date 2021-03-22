@@ -23,10 +23,14 @@ print("connected to: " + ser.portstr)
 
 while True:
     val = ser.readline()  # reads serial line
-    print(type(val))
     if len(val) >= 1:  # bug if the val is less than 1 it wont send is needed to cut b'' form the results
-        post_name = (str(val)[2:-31])  # -31=4 char for the if you have a longer name make it bigger also
-        variable = (str(val)[12:-15])  # 12=4 char for name if you have a longer name make it bigger also gets the val from serial read removes 12 char from the start and 15 from the end. is the variable value that's sent to initial state
+        post_name = (str(val)[2:-25])  # -31=4 char for the if you have a longer name make it bigger also
+        post_name = (post_name.replace(" ", ""))
+
+        variable = (str(val)[2:-5])  # 12=4 char for name if you have a longer name make it bigger also gets the val from serial read removes 12 char from the start and 15 from the end. is the variable value that's sent to initial state
+        variable = (variable.replace(post_name, ""))
+        variable = (variable.replace(" ", ""))
+
         post_url = "{}&{}={}".format(url, post_name, variable)  # formatting the url - compiles the url, post name and variable into one line , & is for string = for int
 
         print(post_url)  # print to console

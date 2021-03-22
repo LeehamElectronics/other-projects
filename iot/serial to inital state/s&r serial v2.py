@@ -19,7 +19,7 @@ while True:
     val = ser.readline()
     if len(val) >= 1:
         post_name = (str(val)[2:-31])
-        variable = (str(val)[12:-15])
+        variable = (str(val)[10:-15])
         post_url = "{}&{}={}".format(url, post_name, variable)
 
         print(post_url)
