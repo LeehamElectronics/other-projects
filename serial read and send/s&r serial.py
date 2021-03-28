@@ -1,10 +1,10 @@
 # ======================================================================================================================
 # made by Bevan Matsacos
-# reads serial data in unicode, converts it to int, removes the byte symbol b' ', sends the val to initial state
+#
 # ======================================================================================================================
 
-import serial
-import requests
+import serial  # pip install pyserial
+import requests  # pip install requests
 
 access_key = "ist_WNCOhg0VQNzA4AQT9NqLLQ-UXPTwe5pF"  # initial state access key
 bucket_key = "697WU5WM5EYX"  # initial state bucket key
@@ -27,17 +27,12 @@ while True:
     if len(val) >= 1:  # bug if the val is less than 1 it wont send is needed to cut b'' form the results
         post_name = (str(val)[2:-31])  # -31=4 char for the if you have a longer name make it bigger also
         variable = (str(val)[12:-15])  # 12=4 char for name if you have a longer name make it bigger also gets the val from serial read removes 12 char from the start and 15 from the end. is the variable value that's sent to initial state
-        post_url = "{}&{}={}".format(url, post_name, variable)  # formatting the url - compiles the url, post name and variable into one line , & is for string = for int
+        post_url = "{}&{}={}".format(url, post_name,variable)  # formatting the url - compiles the url, post name and variable into one line , & is for string = for int
 
         print(post_url)  # print to console
         requests.post(post_url)  # request is the name of a repository and post is the command to post it to the website
 ser.close()
 
 # ======================================================================================================================
-#
-# there is a format for the string that gets sent
-# 10 characters for the name any longer and it will leak into the data so add the spaces to add up to ten
-# then
-# the data characters up to 10 characters any longer and it will be cut off extra spaces don't matter for this
 #
 # ======================================================================================================================
