@@ -4,7 +4,7 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
-z::KeyHistory
+^!k::KeyHistory
 
 *!Volume_Down::Media_Prev
 *!Volume_Up::Media_Next
