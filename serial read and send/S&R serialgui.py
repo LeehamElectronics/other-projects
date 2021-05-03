@@ -10,21 +10,16 @@ import requests  # pip install requests
 
 
 def startstoptab1():
-    access_key1 = access_key.get()  # initial state access key
-    bucket_key1 = bucket_key.get()  # initial state bucket key
-    url = "https://groker.init.st/api/events?accessKey=" + str(access_key1) + "&bucketKey=" + str(bucket_key1)  # full url getting general url add variable access key and bucket key
+    url = "https://groker.init.st/api/events?accessKey=" + str(access_key.get()) + "&bucketKey=" + str(
+        bucket_key.get())  # full url getting general url add variable access_key variable and bucket_key variable
 
     ser = serial.Serial(
-        port=port.get(),  # set to com on windows or tty on py
-        baudrate=9600,  # is the bit rate of the bored the default is 9600
-        parity=serial.PARITY_NONE,  # no idea
-        stopbits=serial.STOPBITS_ONE,  # no idea
-        bytesize=serial.EIGHTBITS,  # 8 bit
-        timeout=1)  # also no idea
+        port=str(port.get()), baudrate=9600, parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=1)
 
     val = 0  # sets val to 0 on start
     print("connected to: " + ser.portstr)
-    print(x.get())
+    #  print(x.get())
 
     if x.get() == "1":
         x.set(0)
@@ -32,8 +27,14 @@ def startstoptab1():
             val = ser.readline()  # reads serial line
             print(type(val))
             if len(val) >= 1:  # bug if the val is less than 1 it wont send is needed to cut b'' form the results
-                post_name = (str(val)[2:-31])  # -31=4 char for the if you have a longer name make it bigger also
-                variable = (str(val)[12:-15])  # 12=4 char for name if you have a longer name make it bigger also gets the val from serial read removes 12 char from the start and 15 from the end. is the variable value that's sent to initial state
+
+                name_cutoff_s = 2
+                name_cutoff_e = len(str(name_length.get())) - len(str(val))
+                data_cutoff_s = len(str(val)) - (len(str(val)) - len(str(name_length.get())))
+                data_cutoff_e = (len(str(name_length.get())) + len(str(data_length.get()))) - len(str(val))
+
+                post_name = (str(val)[int(name_cutoff_s):int(name_cutoff_e)])  # -31=4 char for the if you have a longer name make it bigger also
+                variable = (str(val)[int(data_cutoff_s):int(data_cutoff_e)])  # removes 12 char from the start and 15 from the end
                 post_url = "{}&{}={}".format(url, post_name, variable)  # formatting the url - compiles the url, post name and variable into one line , & is for string = for int
 
                 print(post_url)  # print to console
@@ -47,23 +48,94 @@ def startstoptab1():
             val = ser.readline()  # reads serial line
             print(type(val))
             if len(val) >= 1:  # bug if the val is less than 1 it wont send is needed to cut b'' form the results
-                post_name = (str(val)[2:-31])  # -31=4 char for the if you have a longer name make it bigger also
-                variable = (str(val)[12:-15])  # 12=4 char for name if you have a longer name make it bigger also gets the val from serial read removes 12 char from the start and 15 from the end. is the variable value that's sent to initial state
-                post_url = "{}&{}={}".format(url, post_name, variable)  # formatting the url - compiles the url, post name and variable into one line , & is for string = for int
+
+                name_cutoff_s = 2
+                name_cutoff_e = len(str(name_length.get())) - len(str(val))
+                data_cutoff_s = len(str(val)) - (len(str(val)) - len(str(name_length.get())))
+                data_cutoff_e = (len(str(name_length.get())) + len(str(data_length.get()))) - len(str(val))
+
+                post_name = (str(val)[int(name_cutoff_s):int(
+                    name_cutoff_e)])  # -31=4 char for the if you have a longer name make it bigger also
+                variable = (
+                str(val)[int(data_cutoff_s):int(data_cutoff_e)])  # removes 12 char from the start and 15 from the end
+                post_url = "{}&{}={}".format(url, post_name,
+                                             variable)  # formatting the url - compiles the url, post name and variable into one line , & is for string = for int
 
                 print(post_url)  # print to console
                 requests.post(post_url)  # request is the name of a repository and post is the command to post it to the website
                 ser.close()
 
+
 def tab1_save():
-    pass
+    name_cutoff_s = "ab"
+    val = "abkillme1234"
+    data_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get())) + len(str(data_length.get()))) - len(str(val))
+    print("yes")
+    print(data_cutoff_e)
+    #  3 = 12 - (2+4+3)
+    
 
 
 def save_tab2():
+    #val = "43wantdie123"
     access_key.set(tab2_access_key.get())
-    # print(access_key.get())
     bucket_key.set(tab2_bucket_key.get())
-    # print(bucket_key.get())
+    name_length.set(tab2_name_length.get())
+    data_length.set(tab2_data_length.get())
+
+    #name_cutoff_s = len(str("ab"))
+    #print(name_cutoff_s)
+    #name_cutoff_e = len(str(name_length.get())) - len(str(val))
+    # print(name_cutoff)
+    #data_cutoff_s = len(str(val)) - (len(str(val)) - len(str(name_length.get())))
+
+    #data_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get())) + len(str(data_length.get()))) - len(str(val))
+
+    #post_name = (str(val)[int(str(name_cutoff_s)):int(name_cutoff_e)])
+
+    #variable = (str(val)[int(data_cutoff_s):int(data_cutoff_e)])
+
+
+    #print("name cutoff s")
+    #print(name_cutoff_s)
+    #print("name cutoff e")
+    #print(name_cutoff_e)
+    #print("data cutoff s")
+    #print(data_cutoff_s)
+    #print("data_cutoff_e")
+    #print(data_cutoff_e)
+    #print("post name")
+    #print(post_name)
+    #print("post var")
+    #print(variable)
+
+    name_cutoff_s = "ab"
+    val = "abkillme1234"
+    data_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get())) + len(str(data_length.get()))) - len(
+        str(val))
+    print("data c e")
+    print(data_cutoff_e)
+    #  3 = 12 - (2+4+3)
+
+    name_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get()))) - len(str(val))
+    print("name c e")
+    print(name_cutoff_e)
+    # 12 - 2+4
+
+
+    data_cutoff_s = len(str(name_length.get())) + len(str(name_cutoff_s))
+    print("data c s")
+    print(data_cutoff_s)
+
+    post_name = (str(val)[int(str(name_cutoff_s)):int(str(name_cutoff_e))])
+    print("post name")
+    print(post_name)
+
+    variable = (str(val)[int(data_cutoff_s):int(str(data_cutoff_e))])
+    print("post var")
+    print(variable)
+
+
 
 # =========================================================================
 #
