@@ -18,21 +18,9 @@ def last_ten(file, number_of_lines):
     return lines
 
 class MyHandler(FileSystemEventHandler):
-    def on_any_event(self, event):
-        print(event.event_type, event.src_path)
-
-    def on_created(self, event):
-        print("on_created", event.src_path)
-
-    def on_deleted(self, event):
-        print("on_deleted", event.src_path)
-
     def on_modified(self, event):
-        print("on_modified", event.src_path)
         if event.src_path == "./log.txt":
             last_ten('log.txt', 10)
-    def on_moved(self, event):
-        print("on_moved", event.src_path)
 
 event_handler = MyHandler()
 observer = Observer()
