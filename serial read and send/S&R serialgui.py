@@ -2,28 +2,27 @@ from tkinter import *
 from tkinter import ttk
 import serial  # pip install pyserial
 import requests  # pip install requests
+import os
+
+logs = []
 
 
 # =========================================================================
 #
 # =========================================================================
+def run():
+    if z.get() == "1":
+        url = "https://groker.init.st/api/events?accessKey=" + str(access_key.get()) + "&bucketKey=" + str(
+            bucket_key.get())  # full url getting general url add variable access_key variable and bucket_key variable
 
+        ser = serial.Serial(
+            port=str(port.get()), baudrate=9600, parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=1)
 
-def startstoptab1():
-    url = "https://groker.init.st/api/events?accessKey=" + str(access_key.get()) + "&bucketKey=" + str(
-        bucket_key.get())  # full url getting general url add variable access_key variable and bucket_key variable
+        val = 0  # sets val to 0 on start
+        print("connected to: " + ser.portstr)
+        #  print(x.get())
 
-    ser = serial.Serial(
-        port=str(port.get()), baudrate=9600, parity=serial.PARITY_NONE,
-        stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=1)
-
-    val = 0  # sets val to 0 on start
-    print("connected to: " + ser.portstr)
-    #  print(x.get())
-
-    if x.get() == "1":
-        x.set(0)
-        print("no send")
         while True:
             val = ser.readline()  # reads serial line
             print(type(val))
@@ -43,38 +42,43 @@ def startstoptab1():
                                              variable)  # formatting the url - compiles the url, post name and variable into one line , & is for string = for int
 
                 print(post_url)  # print to console
-        ser.close()
 
-
-    else:
-        x.set(1)
-        print("yes send")
-        while True:
-            val = ser.readline()  # reads serial line
-            print(type(val))
-            if len(val) >= 1:  # bug if the val is less than 1 it wont send is needed to cut b'' form the results
-
-                name_cutoff_s = str("ab")
-                name_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get()))) - len(str(val))
-
-                data_cutoff_s = len(str(name_length.get())) + len(str(name_cutoff_s))
-                data_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get())) + len(
-                    str(data_length.get()))) - len(str(val))
-
-                post_name = (str(val)[2:int(str(name_cutoff_e))])
-                variable = (str(val)[int(str(data_cutoff_s)):int(str(data_cutoff_e))])
-
-                post_url = "{}&{}={}".format(url, post_name,
-                                             variable)  # formatting the url - compiles the url, post name and variable into one line , & is for string = for int
-
-                print(post_url)  # print to console
-                requests.post(
-                    post_url)  # request is the name of a repository and post is the command to post it to the website
+                if x.get() == "1":
+                    requests.post(
+                        post_url)  # request is the name of a repository and post is the command to post it to the website
+                else:
+                    pass
                 ser.close()
 
 
-def tab1_save():
-    pass
+
+def read():
+    number_of_lines = len(open('log.txt').readlines())
+    print(number_of_lines)
+
+
+
+def startstoptab1():
+    print(x.get())
+    if z.get() == "1":
+        z.set(0)
+        start_tab1.set("no")
+    else:
+        z.set(1)
+        start_tab1.set("yes")
+
+
+def onlinetab1():
+    if x.get() == "1":
+        x.set(0)
+        online_tab1.set("no")
+    else:
+        x.set(1)
+        online_tab1.set("yes")
+
+
+def save_tab1():
+    print("test")
 
 
 def save_tab2():
@@ -83,44 +87,25 @@ def save_tab2():
     name_length.set(tab2_name_length.get())
     data_length.set(tab2_data_length.get())
 
-    # all bellow here is my testing
+    url = "https://groker.init.st/api/events?accessKey=" + str(access_key.get()) + "&bucketKey=" + str(
+        bucket_key.get())  # full url getting general url add variable access_key variable and bucket_key variable
+
+    val = "123456789012"
+
     name_cutoff_s = str("ab")
     name_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get()))) - len(str(val))
+
     data_cutoff_s = len(str(name_length.get())) + len(str(name_cutoff_s))
     data_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get())) + len(str(data_length.get()))) - len(
         str(val))
+
     post_name = (str(val)[2:int(str(name_cutoff_e))])
     variable = (str(val)[int(str(data_cutoff_s)):int(str(data_cutoff_e))])
 
-    name_cutoff_s = str("ab")
+    post_url = "{}&{}={}".format(url, post_name,
+                                 variable)  # formatting the url - compiles the url, post name and variable into one line , & is for string = for int
 
-    val = "abkillme1234"
-
-    data_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get())) + len(str(data_length.get()))) - len(
-        str(val))
-    print("data c e")
-    print(data_cutoff_e)
-
-    name_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get()))) - len(str(val))
-    print("name c e")
-    print(name_cutoff_e)
-
-    data_cutoff_s = len(str(name_length.get())) + len(str(name_cutoff_s))
-    print("data c s")
-    print(data_cutoff_s)
-
-    post_name = (str(val)[2:int(str(name_cutoff_e))])
-    print("post name")
-    print(post_name)
-
-    variable = (str(val)[int(str(data_cutoff_s)):int(str(data_cutoff_e))])
-    print("post var")
-    print(variable)
-
-    url = "https://groker.init.st/api/events?accessKey=" + str(access_key.get()) + "&bucketKey=" + str(bucket_key.get())
-
-    post_url = "{}&{}={}".format(url, post_name, variable)
-    print(post_url)
+    print(post_url)  # print to console
 
 
 # =========================================================================
@@ -135,13 +120,10 @@ tabControl.pack(expand=1, fill="both")
 # =========================================================================
 #
 # =========================================================================
-
-# =========================================================================
-# With Tkinter we need to to update values on the screen we need to use
-# a StingVar() we assign these here and then use these with the textvariable
-# in "Entry" widgets
-# =========================================================================
+online_tab1 = StringVar()
+start_tab1 = StringVar()
 x = StringVar()
+z = StringVar()
 bucket_key = StringVar()
 access_key = StringVar()
 port = StringVar()
@@ -151,11 +133,13 @@ data_length = StringVar()
 tab1 = ttk.Frame(tabControl)
 tabControl.add(tab1, text='data')
 
-tab1_start_stop = StringVar()
-ttk.Button(tab1, text="start/stop", command=startstoptab1).grid(column=1, row=1, sticky=E)
+ttk.Button(tab1, text="online/offline", command=onlinetab1).grid(column=1, row=1, sticky=E)
+ttk.Label(tab1, textvariable=online_tab1).grid(column=2, row=1, columnspan=1, sticky=W)
 
-tab1_save = StringVar()
-ttk.Button(tab1, text="save", command=tab1_save).grid(column=1, row=2, sticky=E)
+ttk.Button(tab1, text="start/stop", command=startstoptab1).grid(column=1, row=2, sticky=E)
+ttk.Label(tab1, textvariable=start_tab1).grid(column=2, row=2, columnspan=1, sticky=W)
+
+ttk.Button(tab1, text="save", command=save_tab1).grid(column=1, row=12, sticky=E)
 
 # =========================================================================
 
@@ -193,5 +177,9 @@ txttab2_data_length.grid(column=2, row=6, columnspan=1, sticky=(W, E))
 ttk.Label(tab2, text="data length").grid(column=1, row=6, sticky=E)
 
 ttk.Button(tab2, text="save", command=save_tab2).grid(column=2, row=8, sticky=E)
+
+run()
+
+read()
 
 root.mainloop()
