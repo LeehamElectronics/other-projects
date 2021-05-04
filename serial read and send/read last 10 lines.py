@@ -25,9 +25,7 @@ def get_last_n_lines(file_name, N):
     return list(reversed(list_of_lines))
 
 def main():
-    print('** Get last 5 lines of text file or csv file **')
     last_lines = get_last_n_lines("log.txt", 5)
-    print('Last 5 lines of File:')
     for line in last_lines:
         print(line)
 if __name__ == '__main__':
