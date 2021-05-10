@@ -9,7 +9,7 @@ import requests
 # =========================================================================
 def run_main(main):  # the run_main function just calls the main function every 100ms
     main()
-    root.after(100, run_main, main)
+    root.after(1, run_main, main)
 
 
 def main():
@@ -18,17 +18,25 @@ def main():
             bucket_key.get())  # full url getting general url add variable access_key variable and bucket_key variable
 
         ser = serial.Serial(
-            port=str(port.get()), baudrate=9600,
-            parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE,
-            bytesize=serial.EIGHTBITS, timeout=1)
+            port='COM5',  # set to com on windows or tty on py
+            baudrate=115200,  # is the bit rate of the bored the default is 9600
+            parity=serial.PARITY_NONE,  # no idea
+            stopbits=serial.STOPBITS_ONE,  # no idea
+            bytesize=serial.EIGHTBITS,  # 8 bit
+            timeout=1)  # also no idea
 
-        val = 0  # sets val to 0 on start
+        val = ser.readline()  # sets val to 0 on start
         print("connected to: " + ser.portstr)
 
         while True:
-            val = ser.readline()  # reads serial line
-            print(type(val))
-            if len(val) >= 1:  # bug if the val is less than 1 it wont send is needed to cut b'' form the results
+            val = 0
+            # print(ser.readline())
+            print("temp")
+            # val = ser.readline()  # reads serial line
+            print(val)
+            if len(str(val)) >= 1:  # bug if the val is less than 1 it wont send is needed to cut b'' form the results
+
+                print("test1")
 
                 name_cutoff_s = str("ab")
                 name_cutoff_e = (len(str(name_cutoff_s)) + len(str(name_length.get()))) - len(str(val))
