@@ -18,7 +18,7 @@ def main():
             bucket_key.get())  # full url getting general url add variable access_key variable and bucket_key variable
 
         ser = serial.Serial(
-            port='COM5',  # set to com on windows or tty on py
+            port='COM9',  # set to com on windows or tty on py
             baudrate=115200,  # is the bit rate of the bored the default is 9600
             parity=serial.PARITY_NONE,  # no idea
             stopbits=serial.STOPBITS_ONE,  # no idea

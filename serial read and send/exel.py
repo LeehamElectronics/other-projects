@@ -38,8 +38,5 @@ while True:
         log_data = "{}={}".format(post_name, variable)
         #print("log")
         print(log_data)
-        h = open('filename.txt', 'a+')
-        h.write("{}\n".format(variable))
-        h.close()
 
 ser.close()
