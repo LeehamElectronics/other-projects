@@ -1,3 +1,5 @@
+from time import sleep, perf_counter
+from threading import Thread
 from tkinter import *
 from tkinter import ttk
 import serial
@@ -15,19 +17,11 @@ from watchdog.events import FileSystemEventHandler
 # the data to the site to be looked at
 #
 # to do
-#
+# not crash under load
 # try remove the need for log10.txt
 # neaten and comment the code
 #
 # =========================================================================
-
-wait = 100
-
-
-def run_main(main):  # the run_main function just calls the main function every 100ms
-    main()
-    root.after(wait, run_main, main)
-
 
 def main():
     if z.get() == "1":

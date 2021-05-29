@@ -1,0 +1,4 @@
+what is this code for?
+its my atempts at doing python & tkinter with multithreding
+why?
+bc it would be good to know
