@@ -5,13 +5,13 @@
 from tkinter import *
 from tkinter import ttk
 import time
-import board
+#import board
 # import neopixel
 import re
 import math
 import random
 import numpy
-import scipy
+#import scipy
 import sys
 
 # =========================================================================

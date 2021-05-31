@@ -11,7 +11,7 @@ def test1():
     v = 1
     a = 0
     while v <= 10:
-        sleep(0.08)
+        sleep(1)
         print("loop a", a)
         a = a + 1
 
@@ -20,7 +20,7 @@ def test2():
     v = 1
     a = 0
     while v <= 10:
-        sleep(0.08)
+        sleep(1)
         print("loop b", a)
         a = a + 1
 
@@ -29,7 +29,7 @@ def thread():
     t1 = Thread(target=test1)
     t2 = Thread(target=test2)
     t1.start()
-    sleep(0.004)
+    sleep(0.5)
     t2.start()
 
 
