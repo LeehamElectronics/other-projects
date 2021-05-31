@@ -1,6 +1,13 @@
 from threading import *
 from time import sleep, perf_counter
 
+######################################################################################
+#
+# working multi on its own only good for separate processing not in tk yet kill me plz
+#
+######################################################################################
+
+
 
 threads = []
 

@@ -1,114 +1,98 @@
-import tkinter as tk
+from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import showerror
-from threading import Thread
-import requests
+from threading import *
+from time import sleep, perf_counter
+
+# ===================================================================
+# bevan matsacos
+# ===================================================================
+
+# threading delays
+delay_start = 1  # default 1
+print(delay_start)
+delay_run = .01  # default .01
+print(delay_run)
+delay_space = delay_run / 2  # delay_run / 2
+print(delay_space)
+
+# threading control start stops kinda scuffed so you gotta start them with an if that's controlled by a button or
+# forever loop to lazy to find a better solution atm
+#thread_start = 1
+
+# timing code
+# start_time = perf_counter()
+# end_time = perf_counter()
+# print({end_time - start_time})
 
 
-class AsyncDownload(Thread):
-    def __init__(self, url):
-        super().__init__()
+def test():
+    v = 0
+    while v == 0:
+        print(1)
+        sleep(2)
 
-        self.html = None
-        self.url = url
-
-    def run(self):
-        response = requests.get(self.url)
-        self.html = response.text
-
-
-class App(tk.Tk):
-    def __init__(self):
-        super().__init__()
-
-        self.title('Webpage Download')
-        self.geometry('680x430')
-        self.resizable(0, 0)
-
-        self.create_header_frame()
-        self.create_body_frame()
-        self.create_footer_frame()
-
-    def create_header_frame(self):
-
-        self.header = ttk.Frame(self)
-        # configure the grid
-        self.header.columnconfigure(0, weight=1)
-        self.header.columnconfigure(1, weight=10)
-        self.header.columnconfigure(2, weight=1)
-        # label
-        self.label = ttk.Label(self.header, text='URL')
-        self.label.grid(column=0, row=0, sticky=tk.W)
-
-        # entry
-        self.url_var = tk.StringVar()
-        self.url_entry = ttk.Entry(self.header,
-                                   textvariable=self.url_var,
-                                   width=80)
-
-        self.url_entry.grid(column=1, row=0, sticky=tk.EW)
-
-        # download button
-        self.download_button = ttk.Button(self.header, text='Download')
-        self.download_button['command'] = self.handle_download
-        self.download_button.grid(column=2, row=0, sticky=tk.E)
-
-        # attach the header frame
-        self.header.grid(column=0, row=0, sticky=tk.NSEW, padx=10, pady=10)
-
-    def handle_download(self):
-        url = self.url_var.get()
-        if url:
-            self.download_button['state'] = tk.DISABLED
-            self.html.delete(1.0, "end")
-
-            download_thread = AsyncDownload(url)
-            download_thread.start()
-
-            self.monitor(download_thread)
-        else:
-            showerror(title='Error',
-                      message='Please enter the URL of the webpage.')
-
-    def monitor(self, thread):
-        if thread.is_alive():
-            # check the thread every 100ms
-            self.after(100, lambda: self.monitor(thread))
-        else:
-            self.html.insert(1.0, thread.html)
-            self.download_button['state'] = tk.NORMAL
-
-    def create_body_frame(self):
-        self.body = ttk.Frame(self)
-        # text and scrollbar
-        self.html = tk.Text(self.body, height=20)
-        self.html.grid(column=0, row=1)
-
-        scrollbar = ttk.Scrollbar(self.body,
-                                  orient='vertical',
-                                  command=self.html.yview)
-
-        scrollbar.grid(column=1, row=1, sticky=tk.NS)
-        self.html['yscrollcommand'] = scrollbar.set
-
-        # attach the body frame
-        self.body.grid(column=0, row=1, sticky=tk.NSEW, padx=10, pady=10)
-
-    def create_footer_frame(self):
-        self.footer = ttk.Frame(self)
-        # configure the grid
-        self.footer.columnconfigure(0, weight=1)
-        # exit button
-        self.exit_button = ttk.Button(self.footer,
-                                      text='Exit',
-                                      command=self.destroy)
-
-        self.exit_button.grid(column=0, row=0, sticky=tk.E)
-
-        # attach the footer frame
-        self.footer.grid(column=0, row=2, sticky=tk.NSEW, padx=10, pady=10)
+def start_threading():  # toggle threading on or off
+    if thread_start.get() == "1":
+        thread_start.set(0)
+        on_off.set("no")
+    else:
+        thread_start.set(1)
+        on_off.set("yes")
 
 
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+def thread_a():
+    print("a waiting")
+    sleep(delay_start)
+    a = 0
+    while thread_start.get() == str(1):
+        sleep(delay_run)
+        log = "loop a", a
+        log_list_a.set(log)
+        a = a + 1
+
+
+def thread_b():
+    print("b waiting")
+    sleep(delay_start)
+    b = 0
+    if thread_start.get() == str(1):
+        sleep(delay_run)
+        log = "loop b", b
+        log_list_b.set(log)
+        b = b + 1
+
+
+def threading():
+    t1 = Thread(target=thread_a)
+    t2 = Thread(target=thread_b)
+    t1.start()
+    sleep(delay_space)
+    t2.start()
+
+
+# =========================================================================
+#
+# =========================================================================
+root = Tk()
+root.title("Serial")
+
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+
+# =========================================================================
+#
+# =========================================================================
+thread_start = StringVar()
+
+on_off = StringVar()
+ttk.Button(mainframe, text="on/off", command=start_threading()).grid(column=1, row=1, padx=2, pady=2, sticky=(W, E))
+ttk.Label(mainframe, textvariable=on_off).grid(column=2, row=1, padx=2, pady=2, columnspan=1, sticky=(W, E))
+
+log_list_a = StringVar()
+ttk.Label(mainframe, textvariable=log_list_a).grid(column=1, row=2, sticky=(W, E))
+
+log_list_b = StringVar()
+ttk.Label(mainframe, textvariable=log_list_b).grid(column=2, row=2, sticky=(W, E))
+
+
+root.mainloop()
