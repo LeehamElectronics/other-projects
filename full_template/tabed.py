@@ -93,7 +93,6 @@ def save_tab_10(event):
     file.write(repr(export_var_0) + "\n" +
                repr(export_var_1) + "\n")  # export var + new line writen to file
     file.close()
-    # read_tab_10()
 
 
 # ======================================================================================================================
@@ -157,6 +156,5 @@ toggle_button1.bind("<Button-1>", read_tab_10)
 toggle_button1 = ttk.Button(tab10, text="save")
 toggle_button1.grid(column=2, row=8, padx=2, pady=2, sticky=(W, E))
 toggle_button1.bind("<Button-1>", save_tab_10)
-
 
 root.mainloop()

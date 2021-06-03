@@ -11,8 +11,8 @@ bucket_key = "697WU5WM5EYX"  # initial state bucket key
 url = "https://groker.init.st/api/events?accessKey=" + access_key + "&bucketKey=" + bucket_key  # full url getting general url add variable access key and bucket key
 
 ser = serial.Serial(
-    port='COM7',  # set to com on windows or tty on py
-    baudrate=115200,  # is the bit rate of the bored the default is 9600
+    port='COM1',  # set to com on windows or tty on py
+    baudrate=9600,  # is the bit rate of the bored the default is 9600
     parity=serial.PARITY_NONE,  # no idea
     stopbits=serial.STOPBITS_ONE,  # no idea
     bytesize=serial.EIGHTBITS,  # 8 bit
