@@ -1,2 +1,2 @@
-'Com port    = 1'
-'Com speed = 3600'
+'com port =5'
+'com speed =3800'
