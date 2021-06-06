@@ -8,7 +8,7 @@ import serial  # pip install pyserial
 import time
 
 ser = serial.Serial(
-    port='COM1',  # set to com on windows or tty on py
+    port='COM10',  # set to com on windows or tty on py
     baudrate=9600,  # is the bit rate of the bored the default is 9600
     parity=serial.PARITY_NONE,  # no idea
     stopbits=serial.STOPBITS_ONE,  # no idea
