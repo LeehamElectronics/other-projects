@@ -1,2 +1,2 @@
-'Start delay     = 1'
-'Runing delay = 0.01'
+'Start delay     = 122'
+'Runing delay = 12'

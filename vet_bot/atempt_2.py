@@ -24,7 +24,6 @@ print(delay_space)
 ser = serial.Serial(port='COM10', baudrate=9600, timeout=.1)
 
 
-
 def run_read(read):  # the run_last_ten function just calls the read function every 100ms
     read()
     root.after(100, run_read, read)
@@ -32,7 +31,11 @@ def run_read(read):  # the run_last_ten function just calls the read function ev
 
 def read():
     val = ser.readline()  # reads serial line
-    print(str(val))
+    val = (str(val)[2:-1])
+    if len(val) < 3:
+        return
+    else:
+        print(str(val))
 
 
 def stop(event):
@@ -58,8 +61,6 @@ def Forward(event):
                     sleep(.05)
 
 
-
-
 def Back(event):
     if int(on_off.get()) == 1:
         for v in range(int(scale.get())):
@@ -70,7 +71,6 @@ def Back(event):
                     x = "2"
                     ser.write(bytes(x, 'utf-8'))  # reads serial line
                     sleep(.05)
-
 
 
 def Up(event):
@@ -85,7 +85,6 @@ def Up(event):
                     sleep(.05)
 
 
-
 def Down(event):
     if int(on_off.get()) == 1:
         for v in range(int(scale.get())):
@@ -98,20 +97,19 @@ def Down(event):
                     sleep(.05)
 
 
-
-
-
 def scale_set(event):
     if int(scale.get()) == 100:
-        scale.set(1)
+        scale.set(5)
+        return
     if int(scale.get()) == 50:
         scale.set(100)
+        return
     if int(scale.get()) == 10:
         scale.set(50)
+        return
     if int(scale.get()) == 5:
         scale.set(10)
-    if int(scale.get()) == 1:
-        scale.set(5)
+        return
     print(scale.get())
 
 
@@ -136,38 +134,39 @@ y_pos.set(50)
 z_pos = StringVar()
 z_pos.set(50)
 scale = StringVar()
-scale.set(1)
+scale.set(5)
 
-toggle_button = ttk.Button(mainframe, text="Set")#
+# ====================================================================
+
+toggle_button = ttk.Button(mainframe, text="Set")  #
 toggle_button.grid(column=3, row=1, padx=2, pady=2, sticky=(W, E))
 toggle_button.bind("<Button-1>", set)
 
 # Edward edited this bit
-toggle_button = ttk.Button(mainframe, text="Forward")#
+toggle_button = ttk.Button(mainframe, text="Forward")  #
 toggle_button.grid(column=2, row=1, padx=2, pady=2, sticky=(W, E))
 toggle_button.bind("<Button-1>", Forward)
 
-toggle_button = ttk.Button(mainframe, text="Stop")#
+toggle_button = ttk.Button(mainframe, text="Stop")  #
 toggle_button.grid(column=3, row=2, padx=2, pady=2, sticky=(W, E))
 toggle_button.bind("<Button-1>", stop)
 
-toggle_button = ttk.Button(mainframe, text="Back")#
+toggle_button = ttk.Button(mainframe, text="Back")  #
 toggle_button.grid(column=2, row=2, padx=2, pady=2, sticky=(W, E))
 toggle_button.bind("<Button-1>", Back)
 
-toggle_button = ttk.Button(mainframe, text="Up")#
+toggle_button = ttk.Button(mainframe, text="Up")  #
 toggle_button.grid(column=1, row=1, padx=2, pady=2, sticky=(W, E))
 toggle_button.bind("<Button-1>", Up)
 
-toggle_button = ttk.Button(mainframe, text="Scale")#
+toggle_button = ttk.Button(mainframe, text="Scale")  #
 toggle_button.grid(column=3, row=3, padx=2, pady=2, sticky=(W, E))
 toggle_button.bind("<Button-1>", scale_set)
 
-toggle_button = ttk.Button(mainframe, text="Down")#
+toggle_button = ttk.Button(mainframe, text="Down")  #
 toggle_button.grid(column=1, row=2, padx=2, pady=2, sticky=(W, E))
 toggle_button.bind("<Button-1>", Down)
 
-run_read(read)
 # ====================================================================
 ttk.Label(mainframe, text="y=").grid(column=4, padx=2, pady=2, row=1, sticky=(W, E))
 ttk.Label(mainframe, textvariable=y_pos).grid(column=5, row=1, padx=2, pady=2, columnspan=1, sticky=(W, E))
@@ -179,5 +178,7 @@ ttk.Label(mainframe, text="scale=").grid(column=4, padx=2, pady=2, row=3, sticky
 ttk.Label(mainframe, textvariable=scale).grid(column=5, row=3, padx=2, pady=2, columnspan=1, sticky=(W, E))
 
 # ====================================================================
+
+run_read(read)
 
 root.mainloop()
