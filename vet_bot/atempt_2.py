@@ -21,7 +21,7 @@ print(delay_run)
 delay_space = delay_run / 2  # delay_run / 2
 print(delay_space)
 
-ser = serial.Serial(port='COM10', baudrate=9600, timeout=.1)
+ser = serial.Serial(port='COM1', baudrate=9600, timeout=.1)
 
 
 def run_read(read):  # the run_last_ten function just calls the read function every 100ms
