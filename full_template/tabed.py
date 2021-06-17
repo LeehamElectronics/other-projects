@@ -16,7 +16,6 @@ from time import sleep, perf_counter
 # delay_space = delay_run / 2  # delay_run / 2
 # print(delay_space)
 
-# Edward edited your function so it expects an event ("<Button-1>")
 def start_threading(event):  # toggle threading on or off
     delay_start.set(float(val_var_0.get()))
     delay_run.set(float(val_var_1.get()))

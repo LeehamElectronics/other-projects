@@ -24,7 +24,7 @@ delay_space = delay_run / 2  # delay_run / 2
 # end_time = perf_counter()  # ends timer
 # print({end_time - start_time})  # figures out how long it tool
 
-ser = serial.Serial(port='COM1', baudrate=9600, timeout=.1)  # if you want to test the output without device use HHD
+ser = serial.Serial(port='COM4', baudrate=9600, timeout=.1)  # if you want to test the output without device use HHD
 # virtual serial port tools and run ser_read.py along side this one it'll read whats being forwarded to the other port
 
 # =========================================================================
@@ -75,6 +75,7 @@ def thread_a():  # first thread function
                 y_pos.set(i)
                 x = "1"
                 ser.write(bytes(x, 'utf-8'))
+                sleep(.01)
         a_run.set(0)
 
 
@@ -98,6 +99,7 @@ def thread_b():
                 y_pos.set(i)
                 x = "2"
                 ser.write(bytes(x, 'utf-8'))
+                sleep(.01)
         b_run.set(0)
 
 
