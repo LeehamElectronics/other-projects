@@ -9,8 +9,8 @@ Stepper b_Stepper(stepsPerRevolution, 4, 5, 6, 7);
 void setup() {
   Serial.begin(9600);
   Serial.setTimeout(1);
-  a_Stepper.setSpeed(90);
-  b_Stepper.setSpeed(90);
+  a_Stepper.setSpeed(30);
+  b_Stepper.setSpeed(30);
 }
 
 void loop() {
