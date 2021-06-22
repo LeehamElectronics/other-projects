@@ -14,6 +14,11 @@ void setup() {
 }
 
 void loop() {
+  
+  /*
+   * Don't forget to right click, click 'auto format' then commit changes to make it easier to read.
+  */
+  
   while (!Serial.available());
   x = Serial.readString().toInt();
   if (x == 1) {
